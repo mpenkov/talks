@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PyCons 2017: Lessons Learned</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        width: 47%;
+        height: 92%;
+        float: left;
+      }
+      .right-column {
+        width: 47%;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+
+# PyCons 2017: Lessons Learned
+
+@mpenkov
+
+---
+
+name: topleft
+layout: true
+
+---
+
+name: default
+layout: true
+class: center, middle
+
+---
+
+# About Me
+
+ペンコフ　ミハイル 
+
+「ミーシャ」と呼んでください
+
+Developer/data scientist at [Profound Networks](http://profound.net)
+
+Interests: Machine learning, NLP, data science, software development
+
+github, twitter: @mpenkov
+
+Blog: [michael.penkov.id.au](http://michael.penkov.id.au)
+
+.footnote[mpenkov.github.io/talks/pyjp17.html]
+
+---
+
+# PyCons This Year
+
+US (May)
+
+Russia (July)
+
+Japan (September, as staff member) 
+
+Germany (October)
+
+.footnote[mpenkov.github.io/talks/pyjp17.html]
+
+---
+
+# Why Do I Go?
+
+Looking for answers to these questions:
+
+How are other people using Python?
+
+What should I learn next?
+
+How can I improve my existing projects?
+
+.footnote[mpenkov.github.io/talks/pyjp17.html]
+
+---
+
+# What Did I Do At PyCon JP 2017?
+
+Before: translation
+
+During: more translation, registration desk, chair for the English track.
+
+After: &#x1F37A &#x1F37A &#x1F37A
+
+Busy, but lots of fun.  Highly recommended!
+
+---
+
+# Some (General) Lessons Learned
+
+---
+
+# Go to the Sprints
+
+Meet new people
+
+Learn how they work
+
+Contribute to Open Source projects
+
+...
+
+PROFIT!
+
+---
+
+# My experience at PyCon JP sprints:
+
+First-time, but lots of fun
+
+Great preparation by team leaders [@hmatoba](https://github.com/hMatoba) and [@sinhrks](https://twitter.com/sinhrks)
+
+[piexif](https://github.com/hMatoba/Piexif/pull/40) (PR accepted)
+
+[pandas](https://github.com/pandas-dev/pandas/pull/17489) (PR accepted)
+
+Definitely going again next time
+
+Read more [here](http://michael.penkov.id.au/blog/2017/09/12/sprints.html).
+
+---
+
+# Take _Some_ Notes
+
+... but not too much
+
+Everything ends up on YouTube anyway.
+
+For example: [US](https://www.youtube.com/playlist?list=PL2_uTpzY_YzoI-H4kQ2nvvARrrKRovGKG),
+[Russia](https://www.youtube.com/watch?v=vmUdCI1iZ3U&list=PLRdS-n5seLRrcQgUdFr0OG_XP-ZU7FcPS),
+[Japan](https://www.youtube.com/channel/UCxNoKygeZIE1AwZ_NdUCkhQ)
+
+---
+
+# It's Not a Marathon
+
+Don't try to sit through as many presentations as possible
+
+They're on YouTube!
+
+Instead...
+
+---
+
+# Talk to People
+
+Presenters
+
+People at booths (job fairs, etc)
+
+Other attendees
+
+Staff
+
+---
+class: center, middle
+
+# And now, something more specific...
+
+My short list of some presentation highlights from PyCon JP 2017.
+
+---
+
+# Using Machine Learning to Try and Predict Taxi Availability
+
+## [@supercoderhari](https://twitter.com/supercoderhari)
+
+---
+
+# Geospatial Data Analysis and Visualization in Python
+
+## [@wrongbat](https://twitter.com/wrongbat)
+
+---
+
+# How (and Why) We Speak in Unicode
+
+## [@dproi](https://twitter.com/dproi)
+
+---
+
+# Pythonにおけるデバッグ手法
+
+## @TakesxiSximada
+
+---
+
+template: topleft
+
+# Some (Unsolicited) Debugging Advice
+
+Don't _just_ debug your code, write tests!
+
+Sometimes, tests can replace debugging altogether.
+
+For example, when looking at this buggy code:
+
+```python
+for i in range(1, 21):
+    if i % 3 == 0:
+        print('Fizz')
+    elif i % 5 == 0:
+        print('Buzz')
+    elif i % 15 == 0:
+        print('FizzBuzz')
+    else:
+        print(i)
+```
+
+---
+template: topleft
+
+.left-column[
+# Instead of this...
+
+```python
+for i in range(1, 21):
+    print('current i:', i)
+    if i % 3 == 0:
+        print('Fizz')
+    elif i % 5 == 0:
+        print('Buzz')
+    elif i % 15 == 0:
+        print('FizzBuzz')
+    else:
+        print(i)
+```
+]
+
+--
+
+.right-column[
+# or this...
+```python
+import pdb
+for i in range(1, 21):
+    pdb.set_trace()
+    if i % 3 == 0:
+        print('Fizz')
+    elif i % 5 == 0:
+        print('Buzz')
+    elif i % 15 == 0:
+        print('FizzBuzz')
+    else:
+        print(i)
+```
+]
+
+---
+template: topleft
+
+# ... Do this!
+
+```python
+def fizzbuzz(limit):
+    for i in range(1, limit + 1):
+        if i % 3 == 0:
+            yield 'Fizz'
+        elif i % 5 == 0:
+            yield 'Buzz'
+        elif i % 15 == 0:
+            yield 'FizzBuzz'
+        else:
+            yield '%d' % i
+
+def test_fizzbuzz():
+    expected = ('1 2 Fizz 3 4 Buzz 6 7 8 Fizz'
+                '10 11 Fizz 13 14 FizzBuzz').split(' ')
+    actual = list(fizzbuzz(15))
+    assert expected == actual
+```
+
+---
+class: inverse
+template: topleft
+
+# Running the Test
+
+```
+bash-3.2$ py.test fizzbuzz.py -q
+F
+======== FAILURES ========
+_____ test_fizzbuzz ______
+
+    def test_fizzbuzz():
+        expected = ('1 2 Fizz 4 Buzz Fizz 7 8 Fizz '
+                    'Buzz 11 Fizz 13 14 FizzBuzz').split(' ')
+        actual = list(fizzbuzz(15))
+>       assert expected == actual
+E       AssertionError: assert ['1', '2', 'F..., 'Fizz', ...] == ['1', '2', 'Fi..., 'Fizz', ...]
+*E         At index 14 diff: 'FizzBuzz' != 'Fizz'
+E         Full diff:
+E         ['1',
+E         '2',
+E         'Fizz',
+E         '4',
+E         'Buzz',...
+E
+E         ...Full output truncated (13 lines hidden), use '-vv' to show
+
+fizzbuzz.py:17: AssertionError
+1 failed in 0.05 seconds
+```
+
+---
+class: center, middle
+
+# Bonus: my favorite talks from PyCon
+
+My short list of some presentation highlights from PyCon US 2017.
+
+---
+template: topleft
+
+# Mocks are a Code Smell
+
+.left-column[
+I used to write code like this:
+
+```python
+def process_csv(filename):
+    with open(filename) as fin:
+        for line in fin:
+            pass
+
+reader = process_csv('file.csv')
+```
+
+and test it like:
+
+```python
+import io
+import mock
+@mock.patch('open')
+def test_process_csv(m_open):
+    fin = io.StringIO('a|b|c')
+    m_open.return_value = fin
+    result = process_csv('dummy.csv')
+```
+]
+
+--
+template: topleft
+
+.right-column[
+Now I try to write:
+
+```python
+def read_csv(fin)
+    for line in fin:
+        pass
+
+with open('file.csv') as fin:
+    result = read_csv(fin)
+```
+
+and test it like:
+
+```python
+import io
+def test_read_csv():
+    fin = io.StringIO('a|b|c')
+    reader = Reader(fin)
+```
+
+Monkey-patching > mocking
+]
+
+---
+template: topleft
+
+# Mocks are a Code Smell
+
+Watch [How to Make a Good Library API](https://youtu.be/4mkFfce46zE) by [@flaviojuvenal](https://twitter.com/flaviojuvenal).
+
+Mocks can be a sign of coupling, and excessive coupling is bad.
+
+An example from my production code tests:
+
+```python
+@mock.patch("mylib.is_gzipped", lambda x: False)
+@mock.patch("mylib.count_lines", lambda x: 1234)
+@mock.patch("os.path.getsize", lambda x: 2048)
+@mock.patch("os.makedirs", mock.MagicMock())
+@mock.patch("shutil.move", mock.MagicMock())
+@mock.patch("os.chmod", mock.MagicMock())
+@mock.patch('django.core.files.uploadhandler.TemporaryUploadedFile',
+            TEMPORARY_UPLOADED_FILE)
+class MyTest(TestCase):
+    pass
+```
+
+This test is fragile and a nuisance to maintain.
+
+Avoid mocks if you can.
+
+Question: how would you fix this?  Talk to me later.
+
+---
+
+# Reorganize Your Documentation
+
+Better docs will make your project more successful
+
+The secret: there are _four_ different kinds of documentation:
+
+Tutorials, How-to guides, References, Discussions
+
+Modes of writing are different for each kind
+
+They must be _separate_ to each other
+
+Watch the [presentation](https://youtu.be/azf6yzuJt54) by [@evildmp](https://twitter.com/evildmp) or read more about it [here](http://divio.com/blog/documentation).
+
+---
+name: last-page
+template: inverse
+
+## Thank you for listening!
+
+## ご静聴ありがとうございました。
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+var slideshow = remark.create({highlightLines: true});
+    </script>
+  </body>
+</html>
