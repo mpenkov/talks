@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PyCons 2017: Lessons Learned</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 0.5em;
+        left: 1em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      /* Two-column layout */
+      .left-column {
+        width: 47%;
+        height: 92%;
+        float: left;
+      }
+      .right-column {
+        width: 47%;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+
+# Counter-intuitive Optimizations
+
+## Featuring: PyMongo, MongoEngine
+
+@mpenkov
+
+.footnote[https://mpenkov.github.io]
+
+---
+
+name: topleft
+layout: true
+
+---
+
+name: default
+layout: true
+class: center, middle
+
+---
+
+# About Me
+
+Python developer, data scientist
+
+Based in Sapporo, Japan
+
+---
+
+![Sapporo location](sapporo-location.png)
+
+---
+
+# What I do
+
+Gathering domain data from open sources
+
+---
+template: topleft
+
+# Example: sampledomain.com.au
+
+```json
+{
+  "domain": "sampledomain.com.au",
+  "local_links": 9,
+  "tools": ["Cascading Style Sheets", "HTML 5 Specific Tags", "jQuery"],
+  "cert_issuer": "COMODO CA Limited",
+  "web_server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/7.1.10",
+}
+```
+
+--
+
+This gets stored as a document in [MongoDB](https://www.mongodb.com/):
+
+```python
+class DomainInfo(object):
+    domain = mongoengine.StringField(db_field="_id", primary_key=True)
+    local_links = mongoengine.IntegerField()
+    tools = mongoengine.ListField()
+    cert_issuer = mongoengine.StringField()
+    web_server = mongoengine.StringField()
+```
+
+I use [pymongo](https://api.mongodb.com/python/current/) and [mongoengine](http://mongoengine.org/).
+
+---
+
+# Scale
+
+500 million unique domains
+
+100 fields per domain
+
+approx. 100GB of uncompressed data
+
+---
+
+# Problem
+
+Given a list of domains...
+
+--
+
+what domains haven't we seen yet?
+
+---
+template: topleft
+
+# The Pythonic Way
+
+```python
+def yield_new_domains(domain_list):
+    for domain in domain_list:
+        try:
+            DomainInfo.objects.get(id=domain)
+        except DomainInfo.NotFound:
+            yield domain
+```
+
+--
+
+<img src='pythoncartoon-1.jpeg' width='20%'/>
+
+--
+
+<img src='turtle-clipart-10.png' width='33%'/>
+
+---
+template: topleft
+
+# A Faster Way
+
+```bash
+mongoexport --fields id_ --format csv | sort > existing-domains.txt
+sort domain-list.txt | comm -13 existing-domains.txt - > new-domains.txt
+```
+
+mongoexport gives you a list of domains
+
+comm -13 gives you domains present in the second file only
+
+Everything needs to be sorted
+
+This feels wrong, and looks ugly...
+
+--
+
+but it's fast and convenient.
+
+---
+
+<img src='Jackie-Chan-WTF.jpg' width='90%'/>
+
+---
+# Why?
+
+Database queries are expensive
+
+Batching helps, but not _that_ much
+
+Existing tools are heavily optimized
+
+Avoid reinventing the wheel
+
+---
+template: topleft
+
+# How?
+
+Python interfaces: [subprocess](https://docs.python.org/2/library/subprocess.html), [plumbum](http://plumbum.readthedocs.io/en/latest/)
+
+Example:
+
+```python
+from plumbum import local
+me_flags = ['--fields', 'id_', '--format', 'csv']
+chain = local['mongoexport'][me_flags] | local['sort'] > 'existing-domains.txt'
+chain()
+```
+
+Trade-off: speed vs clarity & testability
+
+---
+
+<img src="choose-wisely.jpeg" width='75%'/>
+
+---
+name: last-page
+template: inverse
+
+## Thank you for listening!
+
+@mpenkov
+
+https://mpenkov.github.io
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+var slideshow = remark.create({highlightLines: true});
+    </script>
+  </body>
+</html>
