@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PyCons 2017: Lessons Learned</title>
+    <title>Counter-intuitive Optimizations</title>
     <meta charset="utf-8">
     <style>
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
@@ -92,9 +92,9 @@ class: center, middle, inverse
 
 # Counter-intuitive Optimizations
 
-## Featuring: PyMongo, MongoEngine
+## Featuring: PyMongo, MongoEngine, Plumbum
 
-@mpenkov
+Michael Penkov (@mpenkov)
 
 .footnote[https://mpenkov.github.io]
 
@@ -119,7 +119,9 @@ Based in Sapporo, Japan
 
 ---
 
-![Sapporo location](sapporo-location.png)
+## Japan: the Land of Volcanoes, Earthquakes and Godzilla
+
+<img src='sapporo-location.png' width='77%'/>
 
 ---
 
@@ -165,7 +167,7 @@ I use [pymongo](https://api.mongodb.com/python/current/) and [mongoengine](http:
 
 100 fields per domain
 
-approx. 100GB of uncompressed data
+approx. 100GB of data
 
 ---
 
@@ -186,18 +188,22 @@ template: topleft
 def yield_new_domains(domain_list):
     for domain in domain_list:
         try:
-            DomainInfo.objects.get(id=domain)
+            DomainInfo.objects.get(domain=domain)
         except DomainInfo.NotFound:
             yield domain
 ```
 
 --
 
-<img src='pythoncartoon-1.jpeg' width='20%'/>
+.right-column[
+<img src='pythoncartoon-1.jpeg' width='55%'/>
+]
 
 --
 
-<img src='turtle-clipart-10.png' width='33%'/>
+.left-column[
+<img src='turtle-clipart-10.png' width='100%'/>
+]
 
 ---
 template: topleft
@@ -205,8 +211,8 @@ template: topleft
 # A Faster Way
 
 ```bash
-mongoexport --fields id_ --format csv | sort > existing-domains.txt
-sort domain-list.txt | comm -13 existing-domains.txt - > new-domains.txt
+bash-3.2$ mongoexport --fields _id --format csv | sort > existing-domains.txt
+bash-3.2$ sort domain-list.txt | comm -13 existing-domains.txt - > new-domains.txt
 ```
 
 mongoexport gives you a list of domains
@@ -215,24 +221,32 @@ comm -13 gives you domains present in the second file only
 
 Everything needs to be sorted
 
-This feels wrong, and looks ugly...
+---
 
---
+# This Feels Wrong
 
-but it's fast and convenient.
+I already have an indexed database
+
+Why should I do file I/O, sort, etc?
+
+Answer: because it's fast and convenient.
 
 ---
+
+# Why?!
 
 <img src='Jackie-Chan-WTF.jpg' width='90%'/>
 
 ---
-# Why?
+## Why is the Native Python Version so Slow?
 
 Database queries are expensive
 
 Batching helps, but not _that_ much
 
 Existing tools are heavily optimized
+
+You _can_ optimize your own tools, but...
 
 Avoid reinventing the wheel
 
@@ -241,16 +255,33 @@ template: topleft
 
 # How?
 
-Python interfaces: [subprocess](https://docs.python.org/2/library/subprocess.html), [plumbum](http://plumbum.readthedocs.io/en/latest/)
+```bash
+bash-3.2$ mongoexport --fields _id --format csv | sort > existing-domains.txt
+```
 
-Example:
+--
 
 ```python
-from plumbum import local
-me_flags = ['--fields', 'id_', '--format', 'csv']
+import subprocess  # https://docs.python.org/2/library/subprocess.html
+me_cmd = ['mongoexport', '--fields', '_id', '--format', 'csv']
+with open('existing-domains.txt', 'wb') as fout:
+  me_sub = subprocess.Popen(me_cmd, stdout=subprocess.PIPE)
+  sort_sub = subprocess.Popen(['sort'], stdin=me_sub.stdout, stdout=fout)
+  sort_sub.communicate()
+```
+
+--
+
+```python
+from plumbum import local  # http://plumbum.readthedocs.io/en/latest/
+me_flags = ['--fields', '_id', '--format', 'csv']
 chain = local['mongoexport'][me_flags] | local['sort'] > 'existing-domains.txt'
 chain()
 ```
+
+--
+
+## What to do in Python?  What to do elsewhere?
 
 Trade-off: speed vs clarity & testability
 
