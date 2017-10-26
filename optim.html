@@ -173,7 +173,7 @@ approx. 100GB of data
 
 # Problem
 
-Given a list of domains...
+Given a unordered collection of domains...
 
 --
 
@@ -185,8 +185,8 @@ template: topleft
 # The Pythonic Way
 
 ```python
-def yield_new_domains(domain_list):
-    for domain in domain_list:
+def yield_new_domains(unsorted_collection):
+    for domain in unsorted_collection:
         try:
             DomainInfo.objects.get(domain=domain)
         except DomainInfo.NotFound:
