@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Counter-intuitive Optimizations</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 0.5em;
+        left: 1em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      /* Two-column layout */
+      .left-column {
+        width: 47%;
+        height: 92%;
+        float: left;
+      }
+      .right-column {
+        width: 47%;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+
+# Не переизобретайте колесо
+
+## Интеграция утилит командной строки с Питоном
+
+Михаил Пеньков (@mpenkov)
+
+.footnote[https://mpenkov.github.io]
+
+---
+
+name: topleft
+layout: true
+
+---
+
+# Проблема
+
+Обработка среднего объёма данных
+
+CSV/JSON, сотни миллионов строк, десятки гигабайт в сжатом виде
+
+---
+
+# Пример
+
+Вам дали длинный список "доменов".
+Список надо обработать:
+
+1. конвертировать хостнеймы в домены
+2. конвертировать мейл-адреса в домены
+3. убрать IP адреса и прочую грязь
+4. убрать домены, записанные в блек-лист
+5. убрать повторные домены
+
+--
+
+Ввод:
+
+```
+pt.turismoitacare.com
+en.turismoitacare.com
+1.2.3.4
+sonnybonds@gmail.com
+президент.рф
+xn--d1abbgf6aiiy.xn--p1ai
+```
+
+Вывод:
+
+```
+turismoitacare.com
+президент.рф
+```
+
+---
+
+## Задача
+
+1. конвертировать хостнеймы в домены
+2. конвертировать мейл-адреса в домены
+3. убрать IP адреса и прочую грязь
+4. убрать домены, записанные в блек-лист
+5. убрать повторные домены
+
+## Вопрос
+
+- Как это интегрировать с моим питоновским приложением?
+- Как всё это сделать быстро и эффективно?
+- Как вписаться в ограничения по памяти?
+- Как поскорее это решить с минимальными затратами личного времени?
+
+--
+
+## Начальное решение
+
+    $ zcat input.txt.gz | clean | sort -u | comm - blacklist.txt -23 | gzip > result.txt.gz
+
+---
+
+# Пишем на Питоне clean.py
+
+```python
+import sys
+from magic import hostname_to_domain, email_to_hostname
+for line in sys.stdin:
+    if is_junk(line):
+        continue
+    domain = hostname_to_domain(email_to_hostname(line.rstrip())
+    sys.stdout.write(domain + '\n')
+```
+
+```
+$ zcat input.txt.gz | python clean.py | sort -u | comm - blacklist.txt -23 | gzip > result.txt.gz
+```
+
+---
+
+# Внедряем в наше приложение 
+
+```python
+import os
+os.system("zcat in.txt.gz | clean | sort -u | comm - blist.txt -23 | gzip > out.txt.gz")
+```
+
+--
+
+(нет, не кидайтесь помидорами, я пошутил...)
+
+--
+
+Есть полезная библиотека [plumbum](https://plumbum.readthedocs.io/), позволяющая полностью перенести пайплайн из Баша в Питон:
+
+```python
+from plumbum import local
+zcat = local['zcat']['input.txt.gz']
+clean = local['python']['clean.py'] #  <--- !!
+sort = local['sort']['-u']
+comm = local['comm']['-', 'blacklist.txt', '-23']
+gzip = local['gzip']
+pipeline = zcat | clean | sort | comm | gzip > 'result.txt.gz'
+pipeline()
+# zcat input.txt.gz | clean | sort | comm - blacklist.txt -23 | gzip > result.txt.gz
+```
+---
+
+# Как быть с clean.py?
+
+Возможно ли включить код из clean.py в своё приложение или библиотеку, и вызывать его по надобности?
+
+Конечно, можно.
+Было:
+
+```python
+clean = plumbum.local['python']['clean.py']
+```
+
+Стало:
+
+```python
+clean = plumbum.local['python']['-c', 'from myapp.mymodule import clean;clean()']
+```
+
+где модуль myapp.mymodule содержит функцию clean.
+
+--
+
+Лично я делаю так:
+
+```
+$ myapp call myapp.mymodule clean
+```
+
+--
+
+Можно так же при желании передавать параметры:
+
+```
+$ myapp call myapp.mymodule clean --args capitalize=True
+```
+---
+name: last-page
+template: inverse
+
+# Благодарю за внимание!
+
+@mpenkov
+
+https://mpenkov.github.io
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+var slideshow = remark.create({highlightLines: true});
+    </script>
+  </body>
+</html>
