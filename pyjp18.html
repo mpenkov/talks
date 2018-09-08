@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fun with Python and Kanji</title>
+    <meta charset="utf-8">
+    <style>
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+
+      .kanji-large { font-size: 2.5em; }
+      .kanji-medium { font-size: 1.75em; }
+
+      .footnote {
+        position: absolute;
+        bottom: 0.5em;
+        left: 1em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      /* Two-column layout */
+      .left-column {
+        width: 47%;
+        height: 92%;
+        float: left;
+      }
+      .right-column {
+        width: 47%;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+
+# Fun with Python and Kanji
+
+<div class="kanji-medium">
+  パイソンを<a>用</a>いて<a>漢字</a>と<a>遊</a>びましょう
+</div>
+
+Michael Penkov
+
+@mpenkov
+
+.footnote[https://git.io/link_to_slides_goes_here]
+
+---
+
+name: topleft
+layout: true
+
+---
+
+## So, let me tell you about [Kanji](https://en.wikipedia.org/wiki/Kanji)...
+
+Ancient [logographic](https://en.wikipedia.org/wiki/Logogram) writing system originating from China.
+
+Each character loosely corresponds to a word: 動 - move, 物 - thing.
+
+You can put multiple characters together to make new words: 動物 - animal.
+
+Children learn [a thousand Kanji](https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji) in primary school and another [thousand](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) in high school.
+
+--
+
+<center>
+  <img src='Jackie-Chan-WTF.jpg' width='50%'/>
+</center>
+
+Learning to **recognize**, read, write and pronounce Kanji is difficult.
+
+---
+
+# Kanji Primer
+
+Some simple examples:
+
+<div class="kanji-large">
+月　火　水　木　金　土　日
+</div>
+
+--
+
+You can _combine_ multiple Kanji together to make a single "complex" Kanji:
+
+<div class="kanji-large">
+朋　棚　林　森　明　昌
+</div>
+
+--
+
+Knowing the number of strokes in each Kanji is helpful:
+
+<div class="kanji-medium">
+ー　九　土　木　本　旭　体　侍　待　倉
+</div>
+
+Complex Kanji typically have a higher stroke count.
+
+--
+
+There are thousands of Kanji in use.  How can we ever hope to remember them?!
+
+---
+
+# Getting a Grip on the Kanji
+
+If you can't _say_ it, you can't _use_ it.
+
+How can we refer to these things without becoming fluent in Japanese?
+
+--
+
+We cheat.
+
+We assign _our own English keyword_ to each Kanji.
+The keyword _may_ be related to the "meaning" of the Kanji.
+We make up _our own story_ to connect the keyword to the Kanji.
+
+<div class="kanji-large">
+金 + 失 = 鉄
+</div>
+
+--
+
+metal + lose = iron
+
+Example story:
+
+> Iron is an essential metal for the human body, so it is important not to lose too much of it.
+
+The [Heisig System](https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Remembering_the_Hanzi): 80% of the time, it works *every* time.
+
+---
+
+# Divide and Conquer
+
+Complex Kanji often consist of simpler _parts_.
+
+<div class="kanji-large">
+露　　　雪　雷　電
+</div>
+
+<br>
+
+--
+
+<div class="kanji-large">
+　雨
+<br>
+足　各
+</div>
+
+--
+
+<div class="kanji-large">
+口
+</div>
+
+These **parts** get called different things: [部首](https://ja.wikipedia.org/wiki/%E9%83%A8%E9%A6%96), [radicals](https://kanjialive.com/214-traditional-kanji-radicals), roots, primitive components...
+
+---
+
+# Questions
+
+How do we organize Kanji in a way that's easier to remember?
+
+How do we identify Kanji that are similar to each other?
+
+How do we break down complex Kanji into simpler parts?
+
+How do we look up Kanji that we've never seen before?
+
+How do we avoid doing the hard, manual work by ourselves?
+
+---
+
+layout: true
+class: inverse, center, middle
+
+---
+
+# [Time for some Python!](https://github.com/mpenkov/heisig/blob/master/resources.ipynb)
+
+.footnote[https://git.io/fN5d1]
+
+---
+
+layout: true
+name: topleft
+
+---
+
+# Heisig Dataset
+
+Covers **2042** commonly used Kanji, dividing them into **52** _Lessons_.
+
+Example:
+
+```json
+{'#heisignumber': 846,
+ 'indexordinal': 1626,
+ 'kanji': '鉄',
+ 'keyword': 'iron',
+ 'lessonnumber': 25,
+ 'strokecount': 13}
+```
+
+We can now refer to 2042 Kanji using an unambiguous English _keyword_.
+
+For other Kanji, we have to improvise, but they are relatively rare.
+
+---
+
+# [KRAD Dataset](http://www.edrdg.org/krad/kradinf.html)
+
+One the many useful projects of [Electronic Dictionary Research & Development Group](http://www.edrdg.org/edrdg/index.html).
+
+Decomposes **6,355** Kanji into **254** unique radicals.
+
+Examples:
+
+```
+哀 : 衣 口 亠
+愛 : 心 爪 冖 夂
+旭 : 日 九
+梓 : 十 辛 木 立
+圧 : 土 厂
+```
+
+Example applications:
+
+- Searching for Kanji by radicals (parts)
+- Handwriting recognition
+- Comparing Kanji
+
+Problems:
+
+- Arbitrary order of radicals
+- Does not contain positional information.
+
+---
+
+# Radically Confusing
+
+Example of _different_ Kanji that have exactly the same radicals in different arrangements.
+
+<div class='kanji-large'>
+椙　杲　杳　橸
+</div>
+
+--
+
+More examples:
+
+```
+含　吟　合　哈
+戎　戈　戉　戔
+可　司　叮　哥
+押　抽　抻
+脅　肋　脇
+桂　杜　埜
+甲　申　由
+細　累　縲
+詞　訶　謌
+```
+
+Luckily, most of these are pretty rare.
+
+---
+
+# [CHISE Dataset](http://www.chise.org/ids/index.html)
+
+Covers **20,092** Kanji, decomposing each Kanji into smaller parts using [Polish notation](https://en.wikipedia.org/wiki/Polish_notation).
+
+Examples:
+
+<div class="kanji-large">
+  鉄 ⿰金失
+</div>
+(iron = metal + lose)
+
+--
+
+<div class="kanji-large">
+  嵐 ⿱山風
+</div>
+(storm = mountain + wind)
+
+<div class="kanji-large">
+  亭 ⿱⿳亠口冖丁
+</div>
+(pavilion = top-hat + mouth + roof + street)
+
+--
+
+<div></div>
+
+Layouts:
+
+<div class="kanji-large">
+  ⿰ ⿱ ⿸ ⿺ ⿵ ⿳ ⿴ ⿹ ⿲ ⿷ ⿻ ⿶
+</div>
+
+---
+
+# Unlabeled Graph Example
+
+The graph below has 26 *nodes* (vertices, points) and 17 *edges* (arcs, lines).
+
+<center>
+  <img src="graph-unlabeled.png" alt="A drawing of an unlabeled graph." width="66%">
+</center>
+
+---
+
+# Labeled Graph Example
+
+Each node corresponds to a Kanji.  Edges connect related Kanji.
+
+<center>
+  <img src="graph-labeled.png" alt="A drawing of a labeled graph." width="66%">
+</center>
+
+---
+
+# Connected Components
+
+There are 9 *connected components* (clusters, groups) in the graph below.
+
+<center>
+  <img src="graph-cc.png" alt="A drawing of an unlabled graph with connected components." width="66%">
+</center>
+
+---
+name: last-page
+template: inverse
+
+## Thank you for listening!
+
+## ご静聴ありがとうございました。
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+var slideshow = remark.create({highlightLines: true});
+    </script>
+  </body>
+</html>
