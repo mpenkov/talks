@@ -10,7 +10,38 @@
 
       .kanji-huge { font-size: 4.0em; }
       .kanji-large { font-size: 2.5em; }
+      .kanji-largish { font-size: 2.2em; }
       .kanji-medium { font-size: 1.75em; }
+
+      .kanji-individual { color: red; }
+      .kanji-compound { color: crimson; }
+      .hiragana { color: pink; }
+      .katakana { color: plum; }
+
+      /* https://stackoverflow.com/questions/38680695/adjust-the-vertical-positioning-of-ruby-text */
+      ruby {
+        display: inline-block;
+        line-height: 1em;
+        position: relative;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        text-align: center;
+      }
+
+      span.rb {
+        width: 75px;
+        display: inline-block;
+      }
+
+      span.rt {
+        font-size: 0.5em;
+        position: absolute;
+        display: block;
+        line-height: 1.3em;
+        bottom: -1;
+        color: crimson;
+        width: 75px;
+      }
 
       .footnote {
         position: absolute;
@@ -85,8 +116,8 @@ class: center, middle, inverse
 
 # Fun with Python and Kanji
 
-<div class="kanji-medium">
-  パイソンを<a>用</a>いて<a>漢字</a>と<a>遊</a>びましょう
+<div class="kanji-largish">
+  パイソンを用いて漢字と遊びましょう
 </div>
 
 Michael Penkov
@@ -99,6 +130,26 @@ Michael Penkov
 
 name: topleft
 layout: true
+
+---
+
+# Japanese Writing System
+
+a _really_ quick introduction...
+
+--
+
+<div class="kanji-largish">
+  <span class="katakana">パイソン</span><span class="hiragana">を</span><span class="kanji-individual">用</a><span class="hiragana">いて</a><span class="kanji-compound">漢字</a><span class="hiragana">と</a><span class="kanji-individual">遊</a><span class="hiragana">びましょう</a>
+</div>
+
+1. Katakana syllables (<span class="katakana">カタカナ</a>)
+
+2. Hiragana syllables (<span class="hiragana">ひらがな</a>)
+
+3. Kanji compounds (<span class="kanji-compound">熟語</span>)
+
+    - **Individual Kanji characters** (<span class="kanji-individual">字</span>)
 
 ---
 
@@ -118,7 +169,7 @@ Children learn [a thousand Kanji](https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanj
   <img src='Jackie-Chan-WTF.jpg' width='50%'/>
 </center>
 
-Learning to **recognize**, read, write and pronounce Kanji is difficult.
+Learning to **recognize**, read, pronounce and write Kanji is difficult.
 
 ---
 
@@ -158,6 +209,10 @@ There are thousands of Kanji in use.  How can we ever hope to remember them?!
 
 If you can't _say_ it, you can't _use_ it.
 
+<div class="has-ruby kanji-large">
+  金 + 失 = 鉄
+</div>
+
 How can we refer to these things without becoming fluent in Japanese?
 
 --
@@ -168,17 +223,19 @@ We assign _our own English keyword_ to each Kanji.
 The keyword _may_ be related to the "meaning" of the Kanji.
 We make up _our own story_ to connect the keyword to the Kanji.
 
-<div class="kanji-large">
-金 + 失 = 鉄
+<div class="has-ruby kanji-large">
+  <ruby><span class="rb">金</span><span class="rt">metal</span></ruby>
+  +
+  <ruby><span class="rb">失</span><span class="rt">lose</span></ruby>
+  =
+  <ruby><span class="rb">鉄</span><span class="rt">iron</span></ruby>
 </div>
 
 --
 
-metal + lose = iron
-
 Example story:
 
-> Iron is an essential metal for the human body, so it is important not to lose too much of it.
+> **Iron** is an essential **metal** for the human body, so don't **lose** too much of it.
 
 The [Heisig System](https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Remembering_the_Hanzi): 80% of the time, it works *every* time.
 
@@ -186,26 +243,27 @@ The [Heisig System](https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Reme
 
 # Divide and Conquer
 
-Complex Kanji often consist of simpler _parts_.
+Complex Kanji often consist of simpler _parts_.  Some complex examples:
 
 <div class="kanji-large">
-露　　　雪　雷　電
-</div>
-
-<br>
-
---
-
-<div class="kanji-large">
-　雨
-<br>
-足　各
+  <ruby><span class="rb">露</span><span class="rt">dew</span></ruby>
+  <ruby><span class="rb">雪</span><span class="rt">snow</span></ruby>
+  <ruby><span class="rb">雷</span><span class="rt">thunder</span></ruby>
+  <ruby><span class="rb">電</span><span class="rt">electric</span></ruby>
 </div>
 
 --
 
-<div class="kanji-large">
-口
+Examples of parts:
+
+<div class="kanji-medium">
+<ruby><span class="rb">雨</span><span class="rt">rain</span></ruby>
+<ruby><span class="rb">足</span><span class="rt">foot</span></ruby>
+<ruby><span class="rb">各</span><span class="rt">each</span></ruby>
+<ruby><span class="rb">夂</span><span class="rt">walking</span></ruby>
+<ruby><span class="rb">口</span><span class="rt">mouth</span></ruby>
+<ruby><span class="rb">ヨ</span><span class="rt">broom</span></ruby>
+<ruby><span class="rb">田</span><span class="rt">field</span></ruby>
 </div>
 
 These **parts** get called different things: [部首](https://ja.wikipedia.org/wiki/%E9%83%A8%E9%A6%96), [radicals](https://kanjialive.com/214-traditional-kanji-radicals), roots, primitive components...
@@ -299,7 +357,7 @@ Problems:
 Example of _different_ Kanji that have exactly the same radicals in different arrangements.
 
 <div class='kanji-large'>
-日　木　　　　椙　杲　杳　橸
+  <ruby><span class="rb">日</span><span class="rt">sun</span></ruby><ruby><span class="rb">木</span><span class="rt">tree</span></ruby>　　椙　杲　杳　橸
 </div>
 
 --
@@ -328,30 +386,39 @@ Covers **20,092** Kanji, decomposing each Kanji into smaller parts using [Polish
 
 Examples:
 
-<div class="kanji-large">
-  鉄 ⿰金失
+<div class="kanji-largish">
+<ruby><span class="rb">鉄</span><span class="rt">iron</span></ruby>
+<ruby><span class="rb">⿰</span><span class="rt"></span></ruby>
+<ruby><span class="rb">金</span><span class="rt">metal</span></ruby>
+<ruby><span class="rb">失</span><span class="rt">lose</span></ruby>
 </div>
-(iron = left_right metal lose)
 
 --
 
-<div class="kanji-large">
-  嵐 ⿱山風
+<div class="kanji-largish">
+ <ruby><span class="rb">嵐</span><span class="rt">storm</span></ruby>
+ <ruby><span class="rb">⿱</span><span class="rt"></span></ruby>
+ <ruby><span class="rb">山</span><span class="rt">mountain</span></ruby>
+ <ruby><span class="rb">風</span><span class="rt">wind</span></ruby>
 </div>
-(storm = above_below mountain wind)
 
 --
 
-<div class="kanji-large">
-  亭 ⿱⿳亠口冖丁
+<div class="kanji-largish">
+ <ruby><span class="rb">亭</span><span class="rt">pavilion</span></ruby>
+ <ruby><span class="rb">⿱</span><span class="rt"></span></ruby>
+ <ruby><span class="rb">⿳</span><span class="rt"></span></ruby>
+ <ruby><span class="rb">亠</span><span class="rt">top-hat</span></ruby>
+ <ruby><span class="rb">口</span><span class="rt">mouth</span></ruby>
+ <ruby><span class="rb">冖</span><span class="rt">crown</span></ruby>
+ <ruby><span class="rb">丁</span><span class="rt">street</span></ruby>
 </div>
-(pavilion = above_below above_middle_below top-hat mouth roof street)
 
 --
 
 <div></div>
 
-Total of 12 layouts (translingual Unicode characters):
+Total of 12 layouts (<a href="https://en.wiktionary.org/wiki/%E2%BF%B0">translingual Unicode characters</a>):
 
 <div class="kanji-large">
   ⿰ ⿱ ⿸ ⿺ ⿵ ⿳ ⿴ ⿹ ⿲ ⿷ ⿻ ⿶
@@ -377,7 +444,7 @@ When you stumble upon Kanji you don't recognize, your options include:
 2. Enter it using the IME (easy)
 
 --
-3. Look it up in a Kanji dictionary using the _correct traditional radical_ (tricky)
+3. Look it up in a Kanji dictionary using the _main radical_ (tricky)
 
 --
 4. Estimate the stroke count, narrow down the results (tedious)
@@ -397,6 +464,18 @@ Armed with Python and the knowledge from the previous slides, you have more opti
 
 8. If you recognize _any_ of the radicals, look them up via KRAD
 9. If you recognize any of the parts, look them up via CHISE
+
+<div class="kanji-medium">
+ <ruby><span class="rb">耳</span><span class="rt">ear</span></ruby>
+ <ruby><span class="rb">頁</span><span class="rt">page</span></ruby>
+ <ruby><span class="rb">貝</span><span class="rt">shellfish</span></ruby>
+ <ruby><span class="rb">女</span><span class="rt">woman</span></ruby>
+ <ruby><span class="rb">鳥</span><span class="rt">bird</span></ruby>
+ <ruby><span class="rb">木</span><span class="rt">tree</span></ruby>
+ <ruby><span class="rb">大</span><span class="rt">large</span></ruby>
+ <ruby><span class="rb">火</span><span class="rt">fire</span></ruby>
+ <ruby><span class="rb">糸</span><span class="rt">thread</span></ruby>
+</div>
 
 ---
 
@@ -478,6 +557,19 @@ Future work:
 - Kanji pronunciation
 - Identifying ambiguous keywords
 - Application to words (Kanji compounds)
+- Identifying ambiguous keywords
+
+--
+
+<div class="kanji-large">
+  <ruby><span class="rb">超</span><span class="rt">exceed</span></ruby>
+  <ruby><span class="rb">越</span><span class="rt">overtake</span></ruby>
+  <ruby><span class="rb">追</span><span class="rt">chase</span></ruby>
+  <ruby><span class="rb">逐</span><span class="rt">pursue</span></ruby>
+  <ruby><span class="rb">収</span><span class="rt">income</span></ruby>
+  <ruby><span class="rb">稼</span><span class="rt">earnings</span></ruby>
+  <ruby><span class="rb">給</span><span class="rt">salary</span></ruby>
+</div>
 
 ---
 name: last-page
@@ -486,6 +578,15 @@ template: inverse
 ## Thank you for listening!
 
 <div class="kanji-medium">ご静聴ありがとうございました。</div>
+
+Michael Penkov
+
+@mpenkov
+
+.footnote[
+  slides: https://git.io/fA2PP
+  notebook: https://git.io/fA21v
+]
 
     </textarea>
     <!-- <script src="https://remarkjs.com/downloads/remark-latest.min.js"> -->
