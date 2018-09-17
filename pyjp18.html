@@ -8,7 +8,7 @@
       .remark-slide-content h2 { font-size: 2em; }
       .remark-slide-content h3 { font-size: 1.6em; }
 
-      body { font-family: 'Times New Roman'; }
+      p { font-family: 'Times New Roman'; font-size: 1.25em; }
       h1, h2, h3 { font-family: 'Arial'; font-weight: 400; margin-bottom: 0.5em; }
 
       .kanji-huge { font-size: 4.0em; }
@@ -18,8 +18,10 @@
 
       .kanji-individual { color: red; }
       .kanji-compound { color: crimson; }
-      .hiragana { color: pink; }
+      .hiragana { color: lightskyblue; }
       .katakana { color: plum; }
+
+      .keyword { color: crimson; }
 
       /* https://stackoverflow.com/questions/38680695/adjust-the-vertical-positioning-of-ruby-text */
       ruby {
@@ -160,16 +162,18 @@ a _really_ quick introduction...
 
 Ancient [logographic](https://en.wikipedia.org/wiki/Logogram) writing system originating from China.
 
-Each character _loosely_ corresponds to a word: 停 - halt, 電 - electric.
+One Kanji &#x2248; one word/concept.  Multiple Kanji &#x2248; one word/concept.
 
-Putting multiple Kanji together makes new words: 停電 - power outage, 電停 - tram stop.
+<div class="kanji-large">
+ 　停　　電　　停電　　電停
+</div>
 
-Children learn [a thousand Kanji](https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji) in primary school and [another thousand](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) in high school.
+[A thousand Kanji](https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji) in primary school and [another thousand](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) in high school.
 
 --
 
 <center>
-  <img src='Jackie-Chan-WTF.jpg' width='50%'/>
+  <img src='Jackie-Chan-WTF.jpg' width='40%'/>
 </center>
 
 Learning to **recognize**, read, pronounce and write Kanji is difficult.
@@ -186,7 +190,7 @@ Some simple examples:
 
 --
 
-You can _combine_ multiple Kanji together to make a single "complex" Kanji:
+_Combine_ multiple Kanji together to make a single "complex" Kanji:
 
 <div class="kanji-large">
 朋　棚　林　森　明　昌
@@ -204,27 +208,23 @@ Complex Kanji typically have a higher stroke count.
 
 --
 
-There are thousands of Kanji in use.  How can we ever hope to remember them?!
+There are thousands of Kanji in use.  How can we remember them?!
 
 ---
 
 # Getting a Grip on the Kanji
 
-If you can't _say_ it, you can't _use_ it.
-
 <div class="has-ruby kanji-large">
   金 + 失 = 鉄
 </div>
 
-How can we refer to these things without becoming fluent in Japanese?
+If you can't _say_ it, you can't _use_ it.
+How can we refer to these things?
 
 --
 
-We cheat.
-
-We assign _our own English keyword_ to each Kanji.
+We **cheat**.  We assign _our own English keyword_ to each Kanji.
 The keyword _may_ be related to the "meaning" of the Kanji.
-We make up _our own story_ to connect the keyword to the Kanji.
 
 <div class="has-ruby kanji-large">
   <ruby><span class="rb">金</span><span class="rt">metal</span></ruby>
@@ -236,9 +236,9 @@ We make up _our own story_ to connect the keyword to the Kanji.
 
 --
 
-Example story:
+We make up _our own story_ to connect the keyword to the Kanji, e.g.:
 
-> **Iron** is an essential **metal** for the human body, so don't **lose** too much of it.
+> <span class="keyword">Iron</span> is an essential <span class="keyword">metal</span> for the human body, so don't <span class="keyword">lose</span> too much of it.
 
 The [Heisig System](https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Remembering_the_Hanzi): 80% of the time, it works *every* time.
 
@@ -277,13 +277,13 @@ Some parts can be Kanji themselves.  Others only occur as part of something else
 
 # Questions
 
-1. How do we organize Kanji in a way that's easier to remember?
+1. How do we **organize** Kanji in a way that's easier to remember?
 
-2. How do we identify Kanji that are similar to each other?
+2. How do we **identify** Kanji that are similar to each other?
 
-3. How do we break down complex Kanji into simpler parts?
+3. How do we **break down** complex Kanji into simpler parts?
 
-4. How do we look up Kanji that we've never seen before?
+4. How do we **look up** Kanji that we've never seen before?
 
 5. How do we avoid doing the hard, manual work by ourselves?
 
@@ -307,7 +307,7 @@ name: topleft
 
 # Heisig
 
-Covers **2,042** commonly used Kanji, dividing them into **52** _Lessons_.
+Covers **2,042** commonly used Kanji, dividing them into **56** _Lessons_.
 
 Example:
 
@@ -328,7 +328,7 @@ For other Kanji, we have to improvise, but they are relatively rare.
 
 # [KRAD](http://www.edrdg.org/krad/kradinf.html)
 
-One the many useful projects of [Electronic Dictionary Research & Development Group](http://www.edrdg.org/edrdg/index.html).
+From the [Electronic Dictionary Research & Development Group](http://www.edrdg.org/edrdg/index.html).
 
 Decomposes **6,355** Kanji into **254** unique radicals.
 
@@ -342,22 +342,15 @@ Examples:
 圧 : 土 厂
 ```
 
-Example applications:
+Example applications: searching for Kanji by radicals (parts), handwriting recognition, **comparing Kanji**.
 
-- Searching for Kanji by radicals (parts)
-- Handwriting recognition
-- Comparing Kanji
-
-Problems:
-
-- Arbitrary order of radicals
-- Does not contain positional information.
+Problems: arbitrary order of radicals, no positional information.
 
 ---
 
 # Radically Confusing
 
-Example of _different_ Kanji that have exactly the same radicals in different arrangements.
+Example of _different_ Kanji that have exactly the same radicals:
 
 <div class='kanji-large'>
   <ruby><span class="rb">日</span><span class="rt">sun</span></ruby><ruby><span class="rb">木</span><span class="rt">tree</span></ruby>　　椙　杲　杳　橸
@@ -376,7 +369,6 @@ More examples:
 桂　杜　埜
 甲　申　由
 細　累　縲
-詞　訶　謌
 ```
 
 Luckily, most of these are pretty rare.
@@ -386,8 +378,6 @@ Luckily, most of these are pretty rare.
 # [CHISE](http://www.chise.org/ids/index.html)
 
 Covers **20,092** Kanji, decomposing each Kanji into smaller parts using [Polish notation](https://en.wikipedia.org/wiki/Polish_notation).
-
-Examples:
 
 <div class="kanji-largish">
 <ruby><span class="rb">鉄</span><span class="rt">iron</span></ruby>
@@ -431,7 +421,7 @@ Total of 12 layouts (<a href="https://en.wiktionary.org/wiki/%E2%BF%B0">translin
 
 # Encountering the Unknown
 
-Kanji search challenge: look up the characters below in a dictionary of your choice.
+Kanji search challenge: look up the characters below in a dictionary.
 
 <div class="kanji-large">
 顳　鸚　爨　驪　纜　鱸　鸛
@@ -526,7 +516,7 @@ Each node corresponds to a Kanji.  Edges connect related Kanji.
 
 # [Subgraph](https://en.wikipedia.org/wiki/Glossary_of_graph_theory_terms#subgraph) Example
 
-A subgraph containing only 16 nodes. Helps to visualize graphs with too many nodes/edges.
+A subgraph containing only 16 nodes. Helps simplify complex graphs.
 
 <center>
   <img src="graph-subgraph.png" alt="A drawing of a subgraph." width="66%">
@@ -546,7 +536,7 @@ Reinforce "problematic" Kanji
 
 # Conclusion
 
-Stuff we talked about:
+## Stuff We Talked About
 
 - Brief introduction to Kanji
 - Kanji resources: Heisig, KRAD, CHISE
@@ -555,14 +545,10 @@ Stuff we talked about:
 
 --
 
-Future work:
+## Future Work
 
 - Kanji pronunciation
 - Identifying ambiguous keywords
-- Application to words (Kanji compounds)
-- Identifying ambiguous keywords
-
---
 
 <div class="kanji-large">
   <ruby><span class="rb">超</span><span class="rt">exceed</span></ruby>
@@ -573,6 +559,13 @@ Future work:
   <ruby><span class="rb">稼</span><span class="rt">earnings</span></ruby>
   <ruby><span class="rb">給</span><span class="rt">salary</span></ruby>
 </div>
+
+--
+
+- Application to words (Kanji compounds)
+- Introduce directed graphs
+
+Want to collaborate? Talk to me!
 
 ---
 name: last-page
